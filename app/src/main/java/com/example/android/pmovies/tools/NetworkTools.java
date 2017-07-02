@@ -45,7 +45,9 @@ public class NetworkTools extends Application{
     }
 
     public static String getHTTPResponse(URL url) throws IOException{
-        HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection   urlConn = (HttpURLConnection) url.openConnection();
+                            urlConn.setConnectTimeout(5000);
+                            urlConn.setReadTimeout(10000);
         try{
             InputStream istream = urlConn.getInputStream();
             Scanner scanner = new Scanner(istream);

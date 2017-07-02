@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -37,31 +38,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         API_KEY = getResources().getString(R.string.api_key);
+
+        mAdapter = new RecycleAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        }
-        else{
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         }
+        else{
+            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 8));
+        }
 
-        viewSpinner = (Spinner) findViewById(R.id.view_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.view_spinner_array, android.R.layout.simple_spinner_dropdown_item);
-        viewSpinner.setAdapter(adapter);
+            viewSpinner = (Spinner) findViewById(R.id.view_spinner);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.view_spinner_array, android.R.layout.simple_spinner_dropdown_item);
+            viewSpinner.setAdapter(adapter);
+            viewSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                       if(viewSpinner.getSelectedItem().toString() == getResources().getString(R.string.popular_movies)){
+                           getPopularMovies();
+                       }
+                       else if(viewSpinner.getSelectedItem().toString() == getResources().getString(R.string.top_rated_movies)){
+                           getTopRatedMovies();
+                       }
+                }
 
-        //When Ok button is clicked
-        final Button button = (Button) findViewById(R.id.view_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-               if(viewSpinner.getSelectedItem().toString() == getResources().getString(R.string.popular_movies)){
-                   getPopularMovies();
-               }
-               else if(viewSpinner.getSelectedItem().toString() == getResources().getString(R.string.top_rated_movies)){
-                   getTopRatedMovies();
-               }
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
     }
 
     protected void getPopularMovies(){
@@ -106,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            mAdapter = new RecycleAdapter(movies);
+            mAdapter.swapData(movies);
             mRecyclerView.setAdapter(mAdapter);
         }
 

@@ -3,6 +3,7 @@ package com.example.android.pmovies;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,10 +33,10 @@ public class DetailActivity extends AppCompatActivity {
             titleTextView.setText(selectedMovie.getMovieTitle());
 
             releasedateTextView = (TextView)findViewById(R.id.detail_releasedate);
-            releasedateTextView.setText(getResources().getString(R.string.release_date) + " " + selectedMovie.getReleaseDate());
+            releasedateTextView.setText(String.format(getResources().getString(R.string.release_date), selectedMovie.getReleaseDate()));
 
             userratingTextView = (TextView)findViewById(R.id.detail_userrating);
-            userratingTextView.setText(getResources().getString(R.string.rating)  + " " + selectedMovie.getUserRating());
+            userratingTextView.setText(String.format(getResources().getString(R.string.rating), selectedMovie.getUserRating()));
 
             synopsisTextView = (TextView)findViewById(R.id.detail_synopsis);
             synopsisTextView.setText(selectedMovie.getSynopsis());

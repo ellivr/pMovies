@@ -20,8 +20,8 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NumberVi
     private Movie[] pMovies;
     Context context;
 
-    public RecycleAdapter(Movie[] _movies){
-        pMovies = _movies;
+    public RecycleAdapter(){
+
     }
 
     @Override
@@ -47,6 +47,11 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NumberVi
         return pMovies.length;
     }
 
+    public void swapData(Movie[] list) {
+        pMovies= list;
+        notifyDataSetChanged();
+    }
+
     class NumberViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView imageItem;
 
@@ -57,7 +62,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NumberVi
         }
 
         void bind(int pos){
-            Picasso.with(context).load(pMovies[pos].getImagePath(ImageSize.w342)).into(imageItem);
+            Picasso.with(context).load(pMovies[pos].getImagePath(ImageSize.w185)).placeholder(R.mipmap.ic_autorenew_black_24dp).error(R.mipmap.ic_warning_black_24dp).into(imageItem);
         }
 
         @Override
