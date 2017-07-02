@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">pMovies</string>
+
+    <!--Put themoviedb.org API Key in here-->
+    <string name="api_key">YOUR-API-KEY</string>
+
+    <string name="popular_movies">Popular Movies</string>
+    <string name="top_rated_movies">Top Rated Movies</string>
+    <string name="ok">Ok</string>
+    <string name="hello_world">What would you like to see?</string>
+    <string name="release_date">Release Date:</string>
+    <string name="rating">Rating:</string>
+
+    <string-array name="view_spinner_array">
+        <item>@string/popular_movies</item>
+        <item>@string/top_rated_movies</item>
+    </string-array>
+</resources>
