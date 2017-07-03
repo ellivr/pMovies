@@ -21,11 +21,11 @@ public class NetworkTools extends Application{
     final static String URL_POPULAR = "http://api.themoviedb.org/3/movie/popular";
     final static String URL_TOPRATED = "http://api.themoviedb.org/3/movie/top_rated";
 
-    public static URL buildURL(BrowseType _type){
+    public static URL buildURL(boolean searchPopular){
         URL output = null;
 
         String baseURL = null;
-        if(_type == BrowseType.POPULAR){
+        if(searchPopular == true){
             baseURL = URL_POPULAR;
         }else{
             baseURL = URL_TOPRATED;

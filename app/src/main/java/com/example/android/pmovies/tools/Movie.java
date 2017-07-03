@@ -24,8 +24,19 @@ public class Movie {
         pReleaseDate = releaseDate;
     }
 
-    public String getImagePath(ImageSize _size){
-       return "http://image.tmdb.org/t/p/" + _size.toString() + pImagePath;
+    public String getImagePath(int _size){
+        //Available size w92, w154, w185, w342, w500, w780
+        switch (_size){
+            case 92:
+            case 154:
+            case 185:
+            case 342:
+            case 500:
+            case 780:
+                return "http://image.tmdb.org/t/p/w" + _size + pImagePath;
+            default:
+                return "http://image.tmdb.org/t/p/original" + pImagePath;
+        }
     }
 
     public String getReleaseDate(){

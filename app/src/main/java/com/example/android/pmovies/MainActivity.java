@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
-import com.example.android.pmovies.tools.BrowseType;
 import com.example.android.pmovies.tools.Movie;
 import com.example.android.pmovies.tools.NetworkTools;
 
@@ -23,13 +23,18 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
-    Spinner viewSpinner;
+
     public static Movie[] movies;
 
     RecycleAdapter mAdapter;
-    RecyclerView mRecyclerView;
+
+    @BindView(R.id.view_spinner) Spinner viewSpinner;
+    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
     public static String API_KEY;
 
@@ -37,19 +42,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         API_KEY = getResources().getString(R.string.api_key);
 
         mAdapter = new RecycleAdapter();
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns()));
 
-        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        }
-        else{
-            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 8));
-        }
-
-            viewSpinner = (Spinner) findViewById(R.id.view_spinner);
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.view_spinner_array, android.R.layout.simple_spinner_dropdown_item);
             viewSpinner.setAdapter(adapter);
             viewSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -70,51 +68,41 @@ public class MainActivity extends AppCompatActivity {
             });
     }
 
+    //When users selected Popular Movies on viewSpinner
     protected void getPopularMovies(){
-        new queryTask().execute(NetworkTools.buildURL(BrowseType.POPULAR));
-    }
-
-    protected void getTopRatedMovies(){
-        new queryTask().execute(NetworkTools.buildURL(BrowseType.TOP_RATED));
-    }
-
-    private class queryTask extends AsyncTask<URL, Void, String> {
-
-        @Override
-        protected String doInBackground(URL... params) {
-            URL searchUrl = params[0];
-            String output = null;
-            try {
-                output = NetworkTools.getHTTPResponse(searchUrl);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return output;
-        }
-
-        @Override
-        protected void onPostExecute(String rawJsonData) {
-            if (rawJsonData != null && !rawJsonData.equals("")) {
-                try{
-                    //Get the json data
-                    JSONObject jsonData = new JSONObject(rawJsonData);
-                    JSONArray results = jsonData.getJSONArray("results");
-
-                    //put each of them into movies array
-                    movies = new Movie[results.length()];
-                    for (int i = 0; i < results.length(); i++) {
-                        JSONObject movie = results.getJSONObject(i);
-                        movies[i] = new Movie(movie.getString("title"),movie.getString("poster_path"),movie.getString("overview"),movie.getString("vote_average"),movie.getString("release_date"));
-                    }
-
-                }catch(JSONException e){
-                    e.printStackTrace();
-                }
-            }
-
+        MyAsyncTask asyncTask = new MyAsyncTask(new AsyncResponse() {
+            @Override
+            public void processFinish(Movie[] output) {
             mAdapter.swapData(movies);
             mRecyclerView.setAdapter(mAdapter);
-        }
-
+            }
+        });
+        //Start the asyncTask
+        asyncTask.execute(NetworkTools.buildURL(true));
     }
+
+    //When users selected Top Rated Movies on viewSpinner
+    protected void getTopRatedMovies(){
+        MyAsyncTask asyncTask = new MyAsyncTask(new AsyncResponse() {
+            @Override
+            public void processFinish(Movie[] output) {
+                mAdapter.swapData(movies);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        });
+        //Start the asyncTask
+        asyncTask.execute(NetworkTools.buildURL(false));
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // You can change this divider to adjust the size of the poster
+        int widthDivider = 400;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2;
+        return nColumns;
+    }
+
 }
