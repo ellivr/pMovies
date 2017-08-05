@@ -3,24 +3,12 @@ package com.example.android.pmovies;
 ////
 
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
-import com.example.android.pmovies.tasks.AsyncResponse;
 import com.example.android.pmovies.tools.GlobalVar;
 import com.example.android.pmovies.tools.Movie;
-import com.example.android.pmovies.tools.NetworkTools;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.BunldeCallback {

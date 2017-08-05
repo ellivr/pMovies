@@ -170,6 +170,17 @@ public class MainActivityFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(mSortCriteria == GlobalVar.Const.SORT_FAV){
+            if (!mMenuItemSortFav.isChecked()) {
+                mMenuItemSortFav.setChecked(true);
+            }
+            new FetchFavoritesAsyncTask(getContext(), mMovieAdapter, mMovies).execute();
+        }
+    }
 
     public boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -183,11 +194,7 @@ public class MainActivityFragment extends Fragment{
 
     public void fetchMovies(String sort_order) {
         Call<ListResponse<Movie>> moviesCall;
-        if(sort_order == GlobalVar.Const.SORT_POPULAR){
-            moviesCall = movieService.getPopularMovies();
-        }else{
-            moviesCall = movieService.getTopRatedMovies();
-        }
+        moviesCall = movieService.getMovies(sort_order);
 
         moviesCall.enqueue(new Callback<ListResponse<Movie>>() {
             @Override
