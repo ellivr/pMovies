@@ -27,6 +27,7 @@
     <string name="error_fetchreviews">Error fetching the reviews!</string>
     <string name="share_body">Check out this awesome movie :</string>
     <string name="synopsis">Synopsis</string>
+    <string name="error_intent">Unable to find application to play this media</string>
 
     <!--<string-array name="view_spinner_array">-->
         <!--<item>@string/popular_movies</item>-->

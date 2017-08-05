@@ -1,5 +1,6 @@
 package com.example.android.pmovies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class DetailActivityFragment  extends Fragment implements TrailerAdapter.
     ReviewAdapter reviewAdapter;
     TrailerAdapter trailerAdapter;
 
+    Context mContext;
     List<Review> mReviews;
     List<Trailer> mTrailers;
 
@@ -154,7 +156,7 @@ public class DetailActivityFragment  extends Fragment implements TrailerAdapter.
 
        // fetchReviews();
       //  fetchTrailers();
-
+        mContext = getActivity();
         return rootView;
     }
 
@@ -223,7 +225,11 @@ public class DetailActivityFragment  extends Fragment implements TrailerAdapter.
     public void watch(Trailer trailer, int position) {
         String videoURI = GlobalVar.Const.YOUTUBE_PREFIX + trailer.getKey();
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURI));
-        startActivity(i);
+        if(i.resolveActivity(mContext.getPackageManager()) != null){
+            startActivity(i);
+        }else{
+            Toast.makeText(getActivity(), getResources().getString(R.string.error_intent), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void fetchReviews() {
