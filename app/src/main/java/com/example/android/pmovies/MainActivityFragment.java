@@ -175,10 +175,14 @@ public class MainActivityFragment extends Fragment{
         super.onResume();
 
         if(mSortCriteria == GlobalVar.Const.SORT_FAV){
-            if (!mMenuItemSortFav.isChecked()) {
-                mMenuItemSortFav.setChecked(true);
+            try{
+                if (!mMenuItemSortFav.isChecked()) {
+                    mMenuItemSortFav.setChecked(true);
+                }
+                new FetchFavoritesAsyncTask(getContext(), mMovieAdapter, mMovies).execute();
+            }catch (NullPointerException ignored){
+
             }
-            new FetchFavoritesAsyncTask(getContext(), mMovieAdapter, mMovies).execute();
         }
     }
 
