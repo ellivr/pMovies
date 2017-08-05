@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -201,8 +202,6 @@ public class DetailActivityFragment  extends Fragment implements TrailerAdapter.
         outState.putIntArray(EXTRA_SCROLL_POSITION, new int[]{ scrollView.getScrollX(), scrollView.getScrollY()});
     }
 
-
-
     // Call to update the share intent
     private void setShareIntent(Trailer trailer) {
         if (mShareActionProvider != null) {
@@ -260,7 +259,9 @@ public class DetailActivityFragment  extends Fragment implements TrailerAdapter.
                 try{
                     List<Trailer> trailers = response.body().getResults();
                     trailerAdapter.add(trailers);
-                    setShareIntent(trailers.get(0));
+                    if (trailers != null && !trailers.isEmpty()) {
+                        setShareIntent(trailers.get(0));
+                    }
                 }catch (NullPointerException ignored){
 
                 }
