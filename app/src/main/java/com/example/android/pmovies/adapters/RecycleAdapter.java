@@ -1,4 +1,4 @@
-package com.example.android.pmovies;
+package com.example.android.pmovies.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.android.pmovies.DetailActivity;
+import com.example.android.pmovies.R;
 import com.example.android.pmovies.tools.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -64,7 +66,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NumberVi
         }
 
         void bind(int pos){
-            Picasso.with(context).load(pMovies[pos].getImagePath(185)).placeholder(R.mipmap.ic_autorenew_black_24dp).error(R.mipmap.ic_warning_black_24dp).into(imageItem);
+            Picasso.with(context).load(pMovies[pos].getImageFullURL()).placeholder(R.mipmap.ic_autorenew_black_24dp).error(R.mipmap.ic_warning_black_24dp).into(imageItem);
         }
 
         @Override

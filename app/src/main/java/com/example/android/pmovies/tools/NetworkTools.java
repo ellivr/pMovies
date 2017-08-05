@@ -21,6 +21,8 @@ public class NetworkTools extends Application{
     final static String URL_POPULAR = "http://api.themoviedb.org/3/movie/popular";
     final static String URL_TOPRATED = "http://api.themoviedb.org/3/movie/top_rated";
 
+    final static String URL_BASE = "http://api.themoviedb.org/3/movie/";
+
     public static URL buildURL(boolean searchPopular){
         URL output = null;
 
@@ -32,7 +34,7 @@ public class NetworkTools extends Application{
         }
 
         Uri buildUri = Uri.parse(baseURL).buildUpon()
-                .appendQueryParameter(PARAM_API, MainActivity.API_KEY)
+                .appendQueryParameter(PARAM_API, GlobalVar.API_KEY)
                 .build();
 
         try{
@@ -44,14 +46,50 @@ public class NetworkTools extends Application{
         return output;
     }
 
+    public static URL buildMovieReviewsURL(String movieID) throws MalformedURLException {
+        URL output = null;
+
+        if(movieID != null && movieID != ""){
+            Uri buildUri = Uri.parse(URL_BASE + movieID +"/reviews").buildUpon()
+                    .appendQueryParameter(PARAM_API, GlobalVar.API_KEY)
+                    .build();
+
+            try{
+                output = new URL(buildUri.toString());
+            }catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+            return output;
+        }
+        return output;
+    }
+
+    public static URL buildMovieTrailersURL(String movieID) throws MalformedURLException {
+        URL output = null;
+
+        if(movieID != null && movieID != ""){
+            Uri buildUri = Uri.parse(URL_BASE + movieID +"/videos").buildUpon()
+                    .appendQueryParameter(PARAM_API, GlobalVar.API_KEY)
+                    .build();
+
+            try{
+                output = new URL(buildUri.toString());
+            }catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+            return output;
+        }
+        return output;
+    }
+
     public static String getHTTPResponse(URL url) throws IOException{
         HttpURLConnection   urlConn = (HttpURLConnection) url.openConnection();
-                            urlConn.setConnectTimeout(5000);
-                            urlConn.setReadTimeout(10000);
+        urlConn.setConnectTimeout(5000);
+        urlConn.setReadTimeout(10000);
         try{
             InputStream istream = urlConn.getInputStream();
             Scanner scanner = new Scanner(istream);
-                    scanner.useDelimiter("\\A");
+            scanner.useDelimiter("\\A");
 
             boolean hasInput = scanner.hasNext();
             if(hasInput == true){

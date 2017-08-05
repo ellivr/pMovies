@@ -6,13 +6,31 @@
 
     <string name="popular_movies">Popular Movies</string>
     <string name="top_rated_movies">Top Rated Movies</string>
+    <string name="favorite_movies">Favorite Movies</string>
     <string name="ok">Ok</string>
     <string name="hello_world">What would you like to see?</string>
-    <string name="release_date">Release Date: %1$s</string>
-    <string name="rating">Rating: %1$s</string>
+    <string name="release_date">Release Date: \n%1$s</string>
+    <string name="rating">Rating: \n%1$s</string>
+    <string name="trailer">Trailer %d</string>
+    <string name="trailers">Trailers</string>
+    <string name="user_reviews">User Reviews</string>
+    <string name="fav_msg_added">Added to favorites</string>
+    <string name="mark_unfavorite">Unfavorite</string>
+    <string name="mark_favorite">Mark as Favorite</string>
+    <string name="fav_msg_removed">Removed from Favorites</string>
+    <string name="internet_error">Unable to connect to the internet, some features might be unavailable</string>
+    <string name="settings">Settings</string>
+    <string name="sort_by">Sort By</string>
+    <string name="activity_detail">Details</string>
+    <string name="share_this">Share this</string>
+    <string name="error_fetchtrailer">Error fetching the trailers!</string>
+    <string name="error_fetchreviews">Error fetching the reviews!</string>
+    <string name="share_body">Check out this awesome movie :</string>
+    <string name="synopsis">Synopsis</string>
 
-    <string-array name="view_spinner_array">
-        <item>@string/popular_movies</item>
-        <item>@string/top_rated_movies</item>
-    </string-array>
+    <!--<string-array name="view_spinner_array">-->
+        <!--<item>@string/popular_movies</item>-->
+        <!--<item>@string/top_rated_movies</item>-->
+        <!--<item>@string/favorite_movies</item>-->
+    <!--</string-array>-->
 </resources>

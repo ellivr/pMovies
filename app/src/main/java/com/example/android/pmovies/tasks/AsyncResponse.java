@@ -1,4 +1,4 @@
-package com.example.android.pmovies;
+package com.example.android.pmovies.tasks;
 
 import com.example.android.pmovies.tools.Movie;
 
