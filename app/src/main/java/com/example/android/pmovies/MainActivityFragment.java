@@ -192,10 +192,14 @@ public class MainActivityFragment extends Fragment{
         moviesCall.enqueue(new Callback<ListResponse<Movie>>() {
             @Override
             public void onResponse(Response<ListResponse<Movie>> response) {
-                List<Movie> movieList = response.body().getResults();
-                mMovieAdapter.clear();
-                for (Movie movie : movieList) {
-                    mMovieAdapter.add(movie);
+                try{
+                    List<Movie> movieList = response.body().getResults();
+                    mMovieAdapter.clear();
+                    for (Movie movie : movieList) {
+                        mMovieAdapter.add(movie);
+                    }
+                }catch(NullPointerException ignored){
+
                 }
             }
 
